@@ -1,0 +1,7 @@
+Implement a counter with operations to increment and reset it.
+
+Requirements:
+
+- The counter must never be negative.
+- The counter must never exceed a configurable maximum.
+- If an increment would exceed the maximum, the counter should remain unchanged.

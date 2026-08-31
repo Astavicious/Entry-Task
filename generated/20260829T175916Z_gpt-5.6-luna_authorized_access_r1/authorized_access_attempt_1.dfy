@@ -1,0 +1,37 @@
+class AccessControl {
+  var authorizedUsers: set<string>
+
+  constructor()
+    ensures authorizedUsers == {}
+  {
+    authorizedUsers := {};
+  }
+
+  method GrantAuthorization(user: string)
+    modifies this
+    ensures authorizedUsers == old(authorizedUsers) + {user}
+    ensures user in authorizedUsers
+    ensures forall u: string ::
+      u != user ==> (u in authorizedUsers <==> u in old(authorizedUsers))
+  {
+    authorizedUsers := authorizedUsers + {user};
+  }
+
+  method RevokeAuthorization(user: string)
+    modifies this
+    ensures authorizedUsers == old(authorizedUsers) - {user}
+    ensures user !in authorizedUsers
+    ensures forall u: string ::
+      u != user ==> (u in authorizedUsers <==> u in old(authorizedUsers))
+  {
+    authorizedUsers := authorizedUsers - {user};
+  }
+
+  method RequestAccess(user: string) returns (granted: bool)
+    ensures granted <==> user in authorizedUsers
+    ensures user !in authorizedUsers ==> !granted
+    ensures authorizedUsers == old(authorizedUsers)
+  {
+    granted := user in authorizedUsers;
+  }
+}

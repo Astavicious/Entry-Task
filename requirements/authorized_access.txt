@@ -1,0 +1,7 @@
+Implement a system that grants access to a protected resource only when the requesting user is authorized.
+
+Requirements:
+
+- An unauthorized request must never result in authorized access.
+- Granting authorization should update the authorization state correctly.
+- Revoking authorization should update the authorization state correctly.

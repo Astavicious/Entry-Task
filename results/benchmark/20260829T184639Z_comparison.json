@@ -1,0 +1,55 @@
+{
+  "batch_id": "20260829T184639Z",
+  "design": {
+    "prompt_profiles": ["general", "improved"],
+    "models": ["gpt-5.4-mini", "gpt-5.6-luna", "gpt-5.4"],
+    "scenarios": ["bounded_counter", "authorized_access", "account_transfer"],
+    "repetitions": 1,
+    "max_attempts": 3
+  },
+  "aggregate": {
+    "general": {
+      "runs": 9,
+      "verified_at_1": 6,
+      "verified_at_3": 9,
+      "repair_successes": 3,
+      "repair_opportunities": 3,
+      "total_attempts": 12,
+      "mean_attempts": 1.3333,
+      "warning_count_all_attempts": 1,
+      "total_elapsed_seconds": 289.50,
+      "mean_elapsed_seconds": 32.17
+    },
+    "improved": {
+      "runs": 9,
+      "verified_at_1": 6,
+      "verified_at_3": 8,
+      "repair_successes": 2,
+      "repair_opportunities": 3,
+      "total_attempts": 14,
+      "mean_attempts": 1.5556,
+      "warning_count_all_attempts": 3,
+      "total_elapsed_seconds": 448.26,
+      "mean_elapsed_seconds": 49.81
+    }
+  },
+  "manual_review": {
+    "reviewer": "Codex inspection of final generated sources",
+    "general_complete_specifications": 8,
+    "general_runs": 9,
+    "improved_verified_and_complete_specifications": 8,
+    "improved_runs": 9,
+    "general_issue": "gpt-5.6-luna account_transfer omits explicit source and destination update postconditions, although its implementation performs them.",
+    "improved_issue": "gpt-5.6-luna authorized_access remains invalid Dafny after three attempts because it uses set<string>{} as an empty-set expression.",
+    "proof_shortcuts_found": false,
+    "requirements_weakened_during_repair": false
+  },
+  "result_directories": {
+    "general": "results/benchmark/general",
+    "improved": "results/benchmark/improved"
+  },
+  "artifact_directories": {
+    "general": "generated/general",
+    "improved": "generated/improved"
+  }
+}

@@ -1,0 +1,60 @@
+module AuthorizedAccessSystem {
+  class AccessController {
+    var authorizedUsers: set<nat>
+
+    constructor ()
+      ensures authorizedUsers == {}
+    {
+      authorizedUsers := {};
+    }
+
+    predicate IsAuthorized(user: nat)
+      reads this
+    {
+      user in authorizedUsers
+    }
+
+    method GrantAuthorization(user: nat)
+      modifies this
+      ensures authorizedUsers == old(authorizedUsers) + {user}
+      ensures IsAuthorized(user)
+    {
+      authorizedUsers := authorizedUsers + {user};
+    }
+
+    method RevokeAuthorization(user: nat)
+      modifies this
+      ensures authorizedUsers == old(authorizedUsers) - {user}
+      ensures !IsAuthorized(user)
+    {
+      authorizedUsers := authorizedUsers - {user};
+    }
+
+    method AccessProtectedResource(user: nat) returns (accessGranted: bool)
+      ensures accessGranted ==> old(IsAuthorized(user))
+      ensures !old(IsAuthorized(user)) ==> !accessGranted
+      ensures accessGranted <==> IsAuthorized(user)
+    {
+      accessGranted := user in authorizedUsers;
+    }
+  }
+
+  method Demo() {
+    var controller := new AccessController();
+
+    var granted := controller.AccessProtectedResource(0);
+    assert !granted;
+
+    controller.GrantAuthorization(0);
+    assert controller.IsAuthorized(0);
+
+    granted := controller.AccessProtectedResource(0);
+    assert granted;
+
+    controller.RevokeAuthorization(0);
+    assert !controller.IsAuthorized(0);
+
+    granted := controller.AccessProtectedResource(0);
+    assert !granted;
+  }
+}

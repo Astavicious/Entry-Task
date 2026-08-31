@@ -1,0 +1,33 @@
+{
+  "scenario": "bounded_counter",
+  "requirement_path": "requirements\\bounded_counter.txt",
+  "environment": {
+    "timestamp_utc": "2026-08-26T15:31:00.694371+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "raw_response": null,
+      "dafny_source": null,
+      "raw_path": null,
+      "source_path": null,
+      "verification": "ERROR",
+      "passed": false,
+      "return_code": null,
+      "stdout": "",
+      "stderr": "",
+      "error": "Codex process closed stdout. stderr_tail=WARNING: proceeding, even though we could not create PATH aliases: Could not find home directory\nError: Could not find home directory"
+    }
+  ],
+  "first_attempt_result": "ERROR",
+  "final_result": "ERROR",
+  "attempt_count": 1,
+  "manual_review": {
+    "status": "PENDING",
+    "notes": []
+  }
+}

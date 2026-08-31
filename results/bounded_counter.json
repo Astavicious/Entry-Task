@@ -1,0 +1,38 @@
+{
+  "scenario": "bounded_counter",
+  "requirement_path": "requirements\\bounded_counter.txt",
+  "environment": {
+    "timestamp_utc": "2026-08-26T15:31:37.279483+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "raw_response": "```dafny\nclass Counter {\n  var counter: int\n  var maximum: int\n\n  predicate Valid()\n    reads this\n  {\n    0 <= counter <= maximum\n  }\n\n  constructor(maximumValue: int)\n    requires 0 <= maximumValue\n    ensures Valid()\n    ensures counter == 0\n    ensures maximum == maximumValue\n  {\n    maximum := maximumValue;\n    counter := 0;\n  }\n\n  method Increment()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures maximum == old(maximum)\n    ensures old(counter) < old(maximum) ==> counter == old(counter) + 1\n    ensures old(counter) >= old(maximum) ==> counter == old(counter)\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures maximum == old(maximum)\n    ensures counter == 0\n  {\n    counter := 0;\n  }\n}\n```",
+      "dafny_source": "class Counter {\n  var counter: int\n  var maximum: int\n\n  predicate Valid()\n    reads this\n  {\n    0 <= counter <= maximum\n  }\n\n  constructor(maximumValue: int)\n    requires 0 <= maximumValue\n    ensures Valid()\n    ensures counter == 0\n    ensures maximum == maximumValue\n  {\n    maximum := maximumValue;\n    counter := 0;\n  }\n\n  method Increment()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures maximum == old(maximum)\n    ensures old(counter) < old(maximum) ==> counter == old(counter) + 1\n    ensures old(counter) >= old(maximum) ==> counter == old(counter)\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures maximum == old(maximum)\n    ensures counter == 0\n  {\n    counter := 0;\n  }\n}\n",
+      "raw_path": "generated\\bounded_counter_attempt_1.raw.txt",
+      "source_path": "generated\\bounded_counter_attempt_1.dfy",
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 6 verified, 0 errors\n",
+      "stderr": "",
+      "error": null
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1,
+  "manual_review": {
+    "status": "COMPLETE",
+    "notes": [
+      "COVERED: The counter never becomes negative. Valid requires 0 <= counter, the constructor establishes Valid, and Increment and Reset preserve it.",
+      "COVERED: The counter never exceeds the configurable maximum. The constructor sets maximum from a non-negative parameter, Valid requires counter <= maximum, and both operations preserve Valid and maximum.",
+      "COVERED: An increment that would exceed the maximum leaves the counter unchanged. Increment specifies and implements the unchanged case when the old counter is at least the old maximum.",
+      "Repair changes: none; Attempt 1 verified successfully with no warnings or errors."
+    ]
+  }
+}

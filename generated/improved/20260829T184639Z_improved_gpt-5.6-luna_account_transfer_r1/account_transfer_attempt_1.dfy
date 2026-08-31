@@ -1,0 +1,40 @@
+class Account {
+  var balance: int
+
+  predicate Valid()
+    reads this
+  {
+    balance >= 0
+  }
+
+  constructor(initialBalance: int)
+    requires initialBalance >= 0
+    ensures balance == initialBalance
+    ensures Valid()
+  {
+    balance := initialBalance;
+  }
+}
+
+method Transfer(source: Account, destination: Account, amount: int)
+  requires source != destination
+  requires source.Valid()
+  requires destination.Valid()
+  requires amount >= 0
+  requires amount <= source.balance
+  modifies source, destination
+  ensures source.Valid()
+  ensures destination.Valid()
+  ensures source.balance >= 0
+  ensures destination.balance >= 0
+  ensures source.balance == old(source.balance) - amount
+  ensures destination.balance == old(destination.balance) + amount
+  ensures source.balance + destination.balance ==
+          old(source.balance) + old(destination.balance)
+{
+  assert source.balance >= 0;
+  assert destination.balance >= 0;
+
+  source.balance := source.balance - amount;
+  destination.balance := destination.balance + amount;
+}

@@ -1,0 +1,31 @@
+```dafny
+module AccountTransfer {
+  class Account {
+    var balance: int
+
+    constructor(initialBalance: int)
+      requires initialBalance >= 0
+      ensures balance == initialBalance
+    {
+      balance := initialBalance;
+    }
+
+    method TransferTo(destination: Account, amount: int)
+      requires destination != this
+      requires 0 <= amount
+      requires amount <= balance
+      requires 0 <= balance
+      requires 0 <= destination.balance
+      modifies this, destination
+      ensures balance == old(balance) - amount
+      ensures destination.balance == old(destination.balance) + amount
+      ensures 0 <= balance
+      ensures 0 <= destination.balance
+      ensures balance + destination.balance == old(balance) + old(destination.balance)
+    {
+      balance := balance - amount;
+      destination.balance := destination.balance + amount;
+    }
+  }
+}
+```

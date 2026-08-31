@@ -1,0 +1,50 @@
+class AccessControl {
+  var authorized: set<string>
+
+  constructor ()
+    ensures authorized == {}
+  {
+    authorized := {}
+  }
+
+  method Grant(user: string)
+    modifies this
+    ensures user in authorized
+  {
+    authorized := authorized + {user}
+  }
+
+  method Revoke(user: string)
+    modifies this
+    ensures user !in authorized
+  {
+    authorized := authorized - {user}
+  }
+
+  method RequestAccess(user: string) returns (granted: bool)
+    ensures granted <==> user in authorized
+  {
+    granted := user in authorized
+  }
+
+  method Main()
+  {
+    var accessControl := new AccessControl()
+    var user := "alice"
+
+    var access := accessControl.RequestAccess(user)
+    assert !access
+
+    accessControl.Grant(user)
+    assert user in accessControl.authorized
+
+    access := accessControl.RequestAccess(user)
+    assert access
+
+    accessControl.Revoke(user)
+    assert user !in accessControl.authorized
+
+    access := accessControl.RequestAccess(user)
+    assert !access
+  }
+}

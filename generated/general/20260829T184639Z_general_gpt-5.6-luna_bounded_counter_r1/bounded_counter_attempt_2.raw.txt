@@ -1,0 +1,40 @@
+```dafny
+class Counter
+{
+  var counter: int
+  var maximum: int
+
+  constructor (maximum: int)
+    requires 0 <= maximum
+    ensures this.maximum == maximum
+    ensures counter == 0
+    ensures 0 <= counter <= this.maximum
+  {
+    this.maximum := maximum;
+    counter := 0;
+  }
+
+  method Increment()
+    requires 0 <= maximum
+    requires 0 <= counter <= maximum
+    modifies this
+    ensures maximum == old(maximum)
+    ensures 0 <= counter <= maximum
+    ensures counter == (if old(counter) < old(maximum) then old(counter) + 1 else old(counter))
+  {
+    if counter < maximum {
+      counter := counter + 1;
+    }
+  }
+
+  method Reset()
+    requires 0 <= maximum
+    modifies this
+    ensures maximum == old(maximum)
+    ensures counter == 0
+    ensures 0 <= counter <= maximum
+  {
+    counter := 0;
+  }
+}
+```

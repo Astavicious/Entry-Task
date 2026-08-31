@@ -1,0 +1,37 @@
+```dafny
+class Counter {
+  var counter: nat
+  var maximum: nat
+
+  invariant counter <= maximum
+
+  constructor (max: nat)
+    requires max >= 0
+    ensures counter == 0
+    ensures maximum == max
+    ensures counter <= maximum
+  {
+    counter := 0;
+    maximum := max;
+  }
+
+  method Increment()
+    modifies this
+    ensures old(counter) < maximum ==> counter == old(counter) + 1
+    ensures old(counter) >= maximum ==> counter == old(counter)
+    ensures counter <= maximum
+  {
+    if counter < maximum {
+      counter := counter + 1;
+    }
+  }
+
+  method Reset()
+    modifies this
+    ensures counter == 0
+    ensures counter <= maximum
+  {
+    counter := 0;
+  }
+}
+```

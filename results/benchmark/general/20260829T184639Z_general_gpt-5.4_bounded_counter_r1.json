@@ -1,0 +1,123 @@
+{
+  "run_id": "20260829T184639Z_general_gpt-5.4_bounded_counter_r1",
+  "scenario": "bounded_counter",
+  "requirement_path": "requirements\\bounded_counter.txt",
+  "repetition": 1,
+  "requested_model": "gpt-5.4",
+  "prompt_profile": "general",
+  "actual_model": null,
+  "model_metadata": {
+    "type": null,
+    "tier": null,
+    "architecture": null,
+    "parameter_count": null
+  },
+  "environment": {
+    "timestamp_utc": "2026-08-29T18:50:35.044507+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model_env": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "prompt_kind": "generation",
+      "raw_response": "```dafny\nclass Counter {\n  var counter: nat\n  var maximum: nat\n\n  predicate Valid()\n    reads this\n  {\n    counter <= maximum\n  }\n\n  constructor (max: nat)\n    ensures Valid()\n    ensures counter == 0\n    ensures maximum == max\n  {\n    maximum := max;\n    counter := 0;\n  }\n\n  method Increment()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures maximum == old(maximum)\n    ensures if old(counter) < maximum then counter == old(counter) + 1 else counter == old(counter)\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures counter == 0\n    ensures maximum == old(maximum)\n  {\n    counter := 0;\n  }\n}\n```",
+      "dafny_source": "class Counter {\n  var counter: nat\n  var maximum: nat\n\n  predicate Valid()\n    reads this\n  {\n    counter <= maximum\n  }\n\n  constructor (max: nat)\n    ensures Valid()\n    ensures counter == 0\n    ensures maximum == max\n  {\n    maximum := max;\n    counter := 0;\n  }\n\n  method Increment()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures maximum == old(maximum)\n    ensures if old(counter) < maximum then counter == old(counter) + 1 else counter == old(counter)\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    requires Valid()\n    modifies this\n    ensures Valid()\n    ensures counter == 0\n    ensures maximum == old(maximum)\n  {\n    counter := 0;\n  }\n}\n",
+      "raw_path": "generated\\general\\20260829T184639Z_general_gpt-5.4_bounded_counter_r1\\bounded_counter_attempt_1.raw.txt",
+      "source_path": "generated\\general\\20260829T184639Z_general_gpt-5.4_bounded_counter_r1\\bounded_counter_attempt_1.dfy",
+      "generation_elapsed_seconds": 16.775466199964285,
+      "llm_duration_ms": 16352,
+      "usage": {
+        "last": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 8960,
+          "inputTokens": 15834,
+          "outputTokens": 707,
+          "reasoningOutputTokens": 516,
+          "totalTokens": 16541
+        },
+        "modelContextWindow": 258400,
+        "total": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 8960,
+          "inputTokens": 15834,
+          "outputTokens": 707,
+          "reasoningOutputTokens": 516,
+          "totalTokens": 16541
+        }
+      },
+      "verification_elapsed_seconds": 0.7688897000043653,
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 6 verified, 0 errors\n",
+      "stderr": "",
+      "error": null,
+      "warnings": [],
+      "warning_count": 0
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1,
+  "total_elapsed_seconds": 17.657999199989717,
+  "tokens": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 8960,
+      "inputTokens": 15834,
+      "outputTokens": 707,
+      "reasoningOutputTokens": 516,
+      "totalTokens": 16541
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 8960,
+      "inputTokens": 15834,
+      "outputTokens": 707,
+      "reasoningOutputTokens": 516,
+      "totalTokens": 16541
+    }
+  },
+  "credits": null,
+  "cost": null,
+  "manual_review": {
+    "status": "PENDING",
+    "scale": {
+      "COVERED": 2,
+      "WEAKENED": 1,
+      "MISSING": 0
+    },
+    "requirements": [
+      {
+        "requirement": "The counter must never be negative.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "The counter must never exceed a configurable maximum.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "If an increment would exceed the maximum, the counter should remain unchanged.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      }
+    ],
+    "unjustified_requires": [],
+    "unrequested_assumptions": [],
+    "vacuous_or_trivial_specifications": [],
+    "suspicious_assume_usage": [],
+    "requirements_weakened_during_repair": [],
+    "normalized_coverage": null,
+    "max_score": 6,
+    "notes": []
+  }
+}

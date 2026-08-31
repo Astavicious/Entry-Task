@@ -1,0 +1,42 @@
+class BoundedCounter {
+  var counter: int
+  var maximum: int
+
+  predicate Valid()
+    reads this
+  {
+    0 <= counter <= maximum
+  }
+
+  constructor (max: int)
+    requires 0 <= max
+    ensures Valid()
+    ensures counter == 0
+    ensures maximum == max
+  {
+    maximum := max;
+    counter := 0;
+  }
+
+  method Increment()
+    requires Valid()
+    modifies this
+    ensures Valid()
+    ensures maximum == old(maximum)
+    ensures counter == if old(counter) < old(maximum) then old(counter) + 1 else old(counter)
+  {
+    if counter < maximum {
+      counter := counter + 1;
+    }
+  }
+
+  method Reset()
+    requires Valid()
+    modifies this
+    ensures Valid()
+    ensures maximum == old(maximum)
+    ensures counter == 0
+  {
+    counter := 0;
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "run_id": "20260829T184639Z_general_gpt-5.4-mini_account_transfer_r1",
+  "scenario": "account_transfer",
+  "requirement_path": "requirements\\account_transfer.txt",
+  "repetition": 1,
+  "requested_model": "gpt-5.4-mini",
+  "prompt_profile": "general",
+  "actual_model": null,
+  "model_metadata": {
+    "type": null,
+    "tier": null,
+    "architecture": null,
+    "parameter_count": null
+  },
+  "environment": {
+    "timestamp_utc": "2026-08-29T18:48:18.041297+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model_env": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "prompt_kind": "generation",
+      "raw_response": "```dafny\nmodule AccountTransfer {\n  class Account {\n    var balance: int\n\n    constructor(initialBalance: int)\n      requires initialBalance >= 0\n      ensures balance == initialBalance\n    {\n      balance := initialBalance;\n    }\n\n    method TransferTo(destination: Account, amount: int)\n      requires destination != this\n      requires 0 <= amount\n      requires amount <= balance\n      requires 0 <= balance\n      requires 0 <= destination.balance\n      modifies this, destination\n      ensures balance == old(balance) - amount\n      ensures destination.balance == old(destination.balance) + amount\n      ensures 0 <= balance\n      ensures 0 <= destination.balance\n      ensures balance + destination.balance == old(balance) + old(destination.balance)\n    {\n      balance := balance - amount;\n      destination.balance := destination.balance + amount;\n    }\n  }\n}\n```",
+      "dafny_source": "module AccountTransfer {\n  class Account {\n    var balance: int\n\n    constructor(initialBalance: int)\n      requires initialBalance >= 0\n      ensures balance == initialBalance\n    {\n      balance := initialBalance;\n    }\n\n    method TransferTo(destination: Account, amount: int)\n      requires destination != this\n      requires 0 <= amount\n      requires amount <= balance\n      requires 0 <= balance\n      requires 0 <= destination.balance\n      modifies this, destination\n      ensures balance == old(balance) - amount\n      ensures destination.balance == old(destination.balance) + amount\n      ensures 0 <= balance\n      ensures 0 <= destination.balance\n      ensures balance + destination.balance == old(balance) + old(destination.balance)\n    {\n      balance := balance - amount;\n      destination.balance := destination.balance + amount;\n    }\n  }\n}\n",
+      "raw_path": "generated\\general\\20260829T184639Z_general_gpt-5.4-mini_account_transfer_r1\\account_transfer_attempt_1.raw.txt",
+      "source_path": "generated\\general\\20260829T184639Z_general_gpt-5.4-mini_account_transfer_r1\\account_transfer_attempt_1.dfy",
+      "generation_elapsed_seconds": 35.66397679998772,
+      "llm_duration_ms": 34232,
+      "usage": {
+        "last": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 2304,
+          "inputTokens": 15588,
+          "outputTokens": 2158,
+          "reasoningOutputTokens": 1974,
+          "totalTokens": 17746
+        },
+        "modelContextWindow": 258400,
+        "total": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 2304,
+          "inputTokens": 15588,
+          "outputTokens": 2158,
+          "reasoningOutputTokens": 1974,
+          "totalTokens": 17746
+        }
+      },
+      "verification_elapsed_seconds": 0.8412106999894604,
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 3 verified, 0 errors\n",
+      "stderr": "",
+      "error": null,
+      "warnings": [],
+      "warning_count": 0
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1,
+  "total_elapsed_seconds": 36.78771829995094,
+  "tokens": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 2304,
+      "inputTokens": 15588,
+      "outputTokens": 2158,
+      "reasoningOutputTokens": 1974,
+      "totalTokens": 17746
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 2304,
+      "inputTokens": 15588,
+      "outputTokens": 2158,
+      "reasoningOutputTokens": 1974,
+      "totalTokens": 17746
+    }
+  },
+  "credits": null,
+  "cost": null,
+  "manual_review": {
+    "status": "PENDING",
+    "scale": {
+      "COVERED": 2,
+      "WEAKENED": 1,
+      "MISSING": 0
+    },
+    "requirements": [
+      {
+        "requirement": "The transfer amount must not be negative.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "The transfer amount must not exceed the source account's balance.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "A successful transfer must leave both accounts with non-negative balances.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "A successful transfer must preserve the combined balance of the two accounts.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      }
+    ],
+    "unjustified_requires": [],
+    "unrequested_assumptions": [],
+    "vacuous_or_trivial_specifications": [],
+    "suspicious_assume_usage": [],
+    "requirements_weakened_during_repair": [],
+    "normalized_coverage": null,
+    "max_score": 8,
+    "notes": []
+  }
+}

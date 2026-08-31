@@ -1,0 +1,38 @@
+{
+  "scenario": "authorized_access",
+  "requirement_path": "requirements\\authorized_access.txt",
+  "environment": {
+    "timestamp_utc": "2026-08-26T15:32:42.957108+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "raw_response": "```dafny\nclass AccessControl {\n  var authorizedUsers: set<int>\n\n  constructor ()\n    ensures authorizedUsers == {}\n  {\n    authorizedUsers := {};\n  }\n\n  method GrantAuthorization(user: int)\n    modifies this\n    ensures authorizedUsers == old(authorizedUsers) + {user}\n    ensures user in authorizedUsers\n  {\n    authorizedUsers := authorizedUsers + {user};\n  }\n\n  method RevokeAuthorization(user: int)\n    modifies this\n    ensures authorizedUsers == old(authorizedUsers) - {user}\n    ensures user !in authorizedUsers\n  {\n    authorizedUsers := authorizedUsers - {user};\n  }\n\n  method RequestAccess(user: int) returns (granted: bool)\n    ensures granted <==> user in authorizedUsers\n    ensures user !in authorizedUsers ==> !granted\n    ensures granted ==> user in authorizedUsers\n  {\n    granted := user in authorizedUsers;\n  }\n}\n```",
+      "dafny_source": "class AccessControl {\n  var authorizedUsers: set<int>\n\n  constructor ()\n    ensures authorizedUsers == {}\n  {\n    authorizedUsers := {};\n  }\n\n  method GrantAuthorization(user: int)\n    modifies this\n    ensures authorizedUsers == old(authorizedUsers) + {user}\n    ensures user in authorizedUsers\n  {\n    authorizedUsers := authorizedUsers + {user};\n  }\n\n  method RevokeAuthorization(user: int)\n    modifies this\n    ensures authorizedUsers == old(authorizedUsers) - {user}\n    ensures user !in authorizedUsers\n  {\n    authorizedUsers := authorizedUsers - {user};\n  }\n\n  method RequestAccess(user: int) returns (granted: bool)\n    ensures granted <==> user in authorizedUsers\n    ensures user !in authorizedUsers ==> !granted\n    ensures granted ==> user in authorizedUsers\n  {\n    granted := user in authorizedUsers;\n  }\n}\n",
+      "raw_path": "generated\\authorized_access_attempt_1.raw.txt",
+      "source_path": "generated\\authorized_access_attempt_1.dfy",
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 6 verified, 0 errors\n",
+      "stderr": "",
+      "error": null
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1,
+  "manual_review": {
+    "status": "COMPLETE",
+    "notes": [
+      "COVERED: An unauthorized request cannot be granted. RequestAccess specifies granted if and only if the user belongs to authorizedUsers, with both implication directions also stated explicitly.",
+      "COVERED: Granting authorization updates the state correctly. GrantAuthorization specifies the exact post-state as the old set plus the requested user.",
+      "COVERED: Revoking authorization updates the state correctly. RevokeAuthorization specifies the exact post-state as the old set minus the requested user.",
+      "Repair changes: none; Attempt 1 verified successfully with no warnings or errors."
+    ]
+  }
+}

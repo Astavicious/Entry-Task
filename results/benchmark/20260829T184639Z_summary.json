@@ -1,0 +1,24 @@
+{
+  "batch_id": "20260829T184639Z",
+  "status": "COMPLETE",
+  "result_paths": [
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.4-mini_bounded_counter_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.4-mini_authorized_access_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.4-mini_account_transfer_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.6-luna_bounded_counter_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.6-luna_authorized_access_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.6-luna_account_transfer_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.4_bounded_counter_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.4_authorized_access_r1.json",
+    "results\\benchmark\\general\\20260829T184639Z_general_gpt-5.4_account_transfer_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.4-mini_bounded_counter_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.4-mini_authorized_access_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.4-mini_account_transfer_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.6-luna_bounded_counter_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.6-luna_authorized_access_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.6-luna_account_transfer_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.4_bounded_counter_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.4_authorized_access_r1.json",
+    "results\\benchmark\\improved\\20260829T184639Z_improved_gpt-5.4_account_transfer_r1.json"
+  ]
+}

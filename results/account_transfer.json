@@ -1,0 +1,39 @@
+{
+  "scenario": "account_transfer",
+  "requirement_path": "requirements\\account_transfer.txt",
+  "environment": {
+    "timestamp_utc": "2026-08-26T15:33:32.457633+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "raw_response": "```dafny\nclass Account {\n  var balance: int\n\n  constructor(initialBalance: int)\n    requires initialBalance >= 0\n    ensures balance == initialBalance\n  {\n    balance := initialBalance;\n  }\n}\n\nmethod Transfer(source: Account, destination: Account, amount: int)\n  requires source != null\n  requires destination != null\n  requires source != destination\n  requires source.balance >= 0\n  requires destination.balance >= 0\n  requires amount >= 0\n  requires amount <= source.balance\n  modifies source, destination\n  ensures source.balance >= 0\n  ensures destination.balance >= 0\n  ensures source.balance == old(source.balance) - amount\n  ensures destination.balance == old(destination.balance) + amount\n  ensures source.balance + destination.balance == old(source.balance) + old(destination.balance)\n{\n  source.balance := source.balance - amount;\n  destination.balance := destination.balance + amount;\n}\n```",
+      "dafny_source": "class Account {\n  var balance: int\n\n  constructor(initialBalance: int)\n    requires initialBalance >= 0\n    ensures balance == initialBalance\n  {\n    balance := initialBalance;\n  }\n}\n\nmethod Transfer(source: Account, destination: Account, amount: int)\n  requires source != null\n  requires destination != null\n  requires source != destination\n  requires source.balance >= 0\n  requires destination.balance >= 0\n  requires amount >= 0\n  requires amount <= source.balance\n  modifies source, destination\n  ensures source.balance >= 0\n  ensures destination.balance >= 0\n  ensures source.balance == old(source.balance) - amount\n  ensures destination.balance == old(destination.balance) + amount\n  ensures source.balance + destination.balance == old(source.balance) + old(destination.balance)\n{\n  source.balance := source.balance - amount;\n  destination.balance := destination.balance + amount;\n}\n",
+      "raw_path": "generated\\account_transfer_attempt_1.raw.txt",
+      "source_path": "generated\\account_transfer_attempt_1.dfy",
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "generated/account_transfer_attempt_1.dfy(13,18): Warning: the type of the other operand is a non-null type, so this comparison with 'null' will always return 'true' (to make it possible for variable 'source' to have the value 'null', declare its type to be 'Account?')\n   |\n13 |   requires source != null\n   |                   ^^\n\ngenerated/account_transfer_attempt_1.dfy(14,23): Warning: the type of the other operand is a non-null type, so this comparison with 'null' will always return 'true' (to make it possible for variable 'destination' to have the value 'null', declare its type to be 'Account?')\n   |\n14 |   requires destination != null\n   |                        ^^\n\n\nDafny program verifier finished with 3 verified, 0 errors\n",
+      "stderr": "",
+      "error": null
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1,
+  "manual_review": {
+    "status": "COMPLETE",
+    "notes": [
+      "COVERED: The transfer amount cannot be negative because Transfer requires amount >= 0.",
+      "COVERED: The transfer amount cannot exceed the source balance because Transfer requires amount <= source.balance.",
+      "COVERED: A successful transfer leaves both balances non-negative through explicit postconditions for source.balance and destination.balance.",
+      "COVERED: A successful transfer preserves the combined balance through an explicit equality between the new and old balance sums.",
+      "Repair changes: none; Attempt 1 verified successfully. Dafny emitted two warnings because source and destination already have non-null Account types, making the explicit null checks redundant."
+    ]
+  }
+}

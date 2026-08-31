@@ -1,0 +1,46 @@
+{
+  "scenario": "bounded_counter",
+  "requirement_path": "requirements\\bounded_counter.txt",
+  "environment": {
+    "timestamp_utc": "2026-08-26T12:02:40.711232+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "raw_response": "```dafny\nclass Counter {\n  var counter: int\n  const maximum: int\n\n  predicate Valid()\n    reads this\n  {\n    maximum >= 0 && 0 <= counter <= maximum\n  }\n\n  constructor (maximum: int)\n    requires maximum >= 0\n    ensures this.maximum == maximum\n    ensures counter == 0\n    ensures Valid()\n  {\n    this.maximum := maximum;\n    counter := 0;\n  }\n\n  method Increment()\n    modifies this\n    requires Valid()\n    ensures maximum == old(maximum)\n    ensures old(counter) < old(maximum) ==> counter == old(counter) + 1\n    ensures old(counter) >= old(maximum) ==> counter == old(counter)\n    ensures 0 <= counter <= maximum\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    modifies this\n    requires Valid()\n    ensures maximum == old(maximum)\n    ensures counter == 0\n    ensures 0 <= counter <= maximum\n  {\n    counter := 0;\n  }\n}\n```",
+      "dafny_source": "class Counter {\n  var counter: int\n  const maximum: int\n\n  predicate Valid()\n    reads this\n  {\n    maximum >= 0 && 0 <= counter <= maximum\n  }\n\n  constructor (maximum: int)\n    requires maximum >= 0\n    ensures this.maximum == maximum\n    ensures counter == 0\n    ensures Valid()\n  {\n    this.maximum := maximum;\n    counter := 0;\n  }\n\n  method Increment()\n    modifies this\n    requires Valid()\n    ensures maximum == old(maximum)\n    ensures old(counter) < old(maximum) ==> counter == old(counter) + 1\n    ensures old(counter) >= old(maximum) ==> counter == old(counter)\n    ensures 0 <= counter <= maximum\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    modifies this\n    requires Valid()\n    ensures maximum == old(maximum)\n    ensures counter == 0\n    ensures 0 <= counter <= maximum\n  {\n    counter := 0;\n  }\n}\n",
+      "raw_path": "generated\\bounded_counter_attempt_1.raw.txt",
+      "source_path": "generated\\bounded_counter_attempt_1.dfy",
+      "verification": "FAIL",
+      "passed": false,
+      "return_code": 2,
+      "stdout": "generated/bounded_counter_attempt_1.dfy(24,23): Warning: Argument to 'old' does not dereference the mutable heap, so this use of 'old' has no effect\n   |\n24 |     ensures maximum == old(maximum)\n   |                        ^^^\n\ngenerated/bounded_counter_attempt_1.dfy(25,27): Warning: Argument to 'old' does not dereference the mutable heap, so this use of 'old' has no effect\n   |\n25 |     ensures old(counter) < old(maximum) ==> counter == old(counter) + 1\n   |                            ^^^\n\ngenerated/bounded_counter_attempt_1.dfy(26,28): Warning: Argument to 'old' does not dereference the mutable heap, so this use of 'old' has no effect\n   |\n26 |     ensures old(counter) >= old(maximum) ==> counter == old(counter)\n   |                             ^^^\n\ngenerated/bounded_counter_attempt_1.dfy(37,23): Warning: Argument to 'old' does not dereference the mutable heap, so this use of 'old' has no effect\n   |\n37 |     ensures maximum == old(maximum)\n   |                        ^^^\n\n\nDafny program verifier finished with 6 verified, 0 errors\nCompilation failed because warnings were found and --allow-warnings is false\n",
+      "stderr": "",
+      "error": null
+    },
+    {
+      "attempt": 2,
+      "raw_response": "```dafny\nclass Counter {\n  var counter: int\n  const maximum: int\n\n  predicate Valid()\n    reads this\n  {\n    maximum >= 0 && 0 <= counter <= maximum\n  }\n\n  constructor (maximum: int)\n    requires maximum >= 0\n    ensures this.maximum == maximum\n    ensures counter == 0\n    ensures Valid()\n  {\n    this.maximum := maximum;\n    counter := 0;\n  }\n\n  method Increment()\n    modifies this\n    requires Valid()\n    ensures old(counter) < maximum ==> counter == old(counter) + 1\n    ensures old(counter) >= maximum ==> counter == old(counter)\n    ensures 0 <= counter <= maximum\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    modifies this\n    requires Valid()\n    ensures counter == 0\n    ensures 0 <= counter <= maximum\n  {\n    counter := 0;\n  }\n}\n```",
+      "dafny_source": "class Counter {\n  var counter: int\n  const maximum: int\n\n  predicate Valid()\n    reads this\n  {\n    maximum >= 0 && 0 <= counter <= maximum\n  }\n\n  constructor (maximum: int)\n    requires maximum >= 0\n    ensures this.maximum == maximum\n    ensures counter == 0\n    ensures Valid()\n  {\n    this.maximum := maximum;\n    counter := 0;\n  }\n\n  method Increment()\n    modifies this\n    requires Valid()\n    ensures old(counter) < maximum ==> counter == old(counter) + 1\n    ensures old(counter) >= maximum ==> counter == old(counter)\n    ensures 0 <= counter <= maximum\n  {\n    if counter < maximum {\n      counter := counter + 1;\n    }\n  }\n\n  method Reset()\n    modifies this\n    requires Valid()\n    ensures counter == 0\n    ensures 0 <= counter <= maximum\n  {\n    counter := 0;\n  }\n}\n",
+      "raw_path": "generated\\bounded_counter_attempt_2.raw.txt",
+      "source_path": "generated\\bounded_counter_attempt_2.dfy",
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 5 verified, 0 errors\n",
+      "stderr": "",
+      "error": null
+    }
+  ],
+  "first_attempt_result": "FAIL",
+  "final_result": "VERIFIED",
+  "attempt_count": 2,
+  "manual_review": {
+    "status": "PENDING",
+    "notes": []
+  }
+}

@@ -1,0 +1,37 @@
+```dafny
+class Account {
+  var balance: int
+
+  predicate Valid()
+    reads this
+  {
+    0 <= balance
+  }
+
+  constructor (initialBalance: int)
+    requires 0 <= initialBalance
+    ensures Valid()
+    ensures balance == initialBalance
+  {
+    balance := initialBalance;
+  }
+
+  method TransferTo(destination: Account, amount: int)
+    requires destination != null
+    requires this != destination
+    requires Valid()
+    requires destination.Valid()
+    requires 0 <= amount
+    requires amount <= balance
+    modifies this, destination
+    ensures Valid()
+    ensures destination.Valid()
+    ensures balance == old(balance) - amount
+    ensures destination.balance == old(destination.balance) + amount
+    ensures balance + destination.balance == old(balance) + old(destination.balance)
+  {
+    balance := balance - amount;
+    destination.balance := destination.balance + amount;
+  }
+}
+```

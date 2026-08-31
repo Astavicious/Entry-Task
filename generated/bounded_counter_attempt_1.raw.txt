@@ -1,0 +1,45 @@
+```dafny
+class Counter {
+  var counter: int
+  var maximum: int
+
+  predicate Valid()
+    reads this
+  {
+    0 <= counter <= maximum
+  }
+
+  constructor(maximumValue: int)
+    requires 0 <= maximumValue
+    ensures Valid()
+    ensures counter == 0
+    ensures maximum == maximumValue
+  {
+    maximum := maximumValue;
+    counter := 0;
+  }
+
+  method Increment()
+    requires Valid()
+    modifies this
+    ensures Valid()
+    ensures maximum == old(maximum)
+    ensures old(counter) < old(maximum) ==> counter == old(counter) + 1
+    ensures old(counter) >= old(maximum) ==> counter == old(counter)
+  {
+    if counter < maximum {
+      counter := counter + 1;
+    }
+  }
+
+  method Reset()
+    requires Valid()
+    modifies this
+    ensures Valid()
+    ensures maximum == old(maximum)
+    ensures counter == 0
+  {
+    counter := 0;
+  }
+}
+```

@@ -1,0 +1,123 @@
+{
+  "run_id": "20260829T184639Z_improved_gpt-5.4-mini_authorized_access_r1",
+  "scenario": "authorized_access",
+  "requirement_path": "requirements\\authorized_access.txt",
+  "repetition": 1,
+  "requested_model": "gpt-5.4-mini",
+  "prompt_profile": "improved",
+  "actual_model": null,
+  "model_metadata": {
+    "type": null,
+    "tier": null,
+    "architecture": null,
+    "parameter_count": null
+  },
+  "environment": {
+    "timestamp_utc": "2026-08-29T18:53:27.927592+00:00",
+    "python_version": "3.12.13",
+    "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+    "openai_codex_version": "0.147.0",
+    "codex_model_env": null
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "prompt_kind": "generation",
+      "raw_response": "```dafny\nclass ProtectedResource {\n  var authorizedUsers: set<string>\n\n  constructor ()\n    ensures authorizedUsers == {}\n  {\n    authorizedUsers := {};\n  }\n\n  predicate Authorized(user: string)\n    reads this\n  {\n    user in authorizedUsers\n  }\n\n  method GrantAuthorization(user: string)\n    modifies this\n    ensures Authorized(user)\n    ensures authorizedUsers == old(authorizedUsers) + {user}\n  {\n    authorizedUsers := authorizedUsers + {user};\n  }\n\n  method RevokeAuthorization(user: string)\n    modifies this\n    ensures !Authorized(user)\n    ensures authorizedUsers == old(authorizedUsers) - {user}\n  {\n    authorizedUsers := authorizedUsers - {user};\n  }\n\n  method RequestAccess(user: string) returns (granted: bool)\n    ensures granted <==> Authorized(user)\n    ensures !Authorized(user) ==> !granted\n    ensures granted ==> Authorized(user)\n  {\n    granted := user in authorizedUsers;\n  }\n}\n```",
+      "dafny_source": "class ProtectedResource {\n  var authorizedUsers: set<string>\n\n  constructor ()\n    ensures authorizedUsers == {}\n  {\n    authorizedUsers := {};\n  }\n\n  predicate Authorized(user: string)\n    reads this\n  {\n    user in authorizedUsers\n  }\n\n  method GrantAuthorization(user: string)\n    modifies this\n    ensures Authorized(user)\n    ensures authorizedUsers == old(authorizedUsers) + {user}\n  {\n    authorizedUsers := authorizedUsers + {user};\n  }\n\n  method RevokeAuthorization(user: string)\n    modifies this\n    ensures !Authorized(user)\n    ensures authorizedUsers == old(authorizedUsers) - {user}\n  {\n    authorizedUsers := authorizedUsers - {user};\n  }\n\n  method RequestAccess(user: string) returns (granted: bool)\n    ensures granted <==> Authorized(user)\n    ensures !Authorized(user) ==> !granted\n    ensures granted ==> Authorized(user)\n  {\n    granted := user in authorizedUsers;\n  }\n}\n",
+      "raw_path": "generated\\improved\\20260829T184639Z_improved_gpt-5.4-mini_authorized_access_r1\\authorized_access_attempt_1.raw.txt",
+      "source_path": "generated\\improved\\20260829T184639Z_improved_gpt-5.4-mini_authorized_access_r1\\authorized_access_attempt_1.dfy",
+      "generation_elapsed_seconds": 71.48911690001842,
+      "llm_duration_ms": 70963,
+      "usage": {
+        "last": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 3328,
+          "inputTokens": 15587,
+          "outputTokens": 4869,
+          "reasoningOutputTokens": 4660,
+          "totalTokens": 20456
+        },
+        "modelContextWindow": 258400,
+        "total": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 3328,
+          "inputTokens": 15587,
+          "outputTokens": 4869,
+          "reasoningOutputTokens": 4660,
+          "totalTokens": 20456
+        }
+      },
+      "verification_elapsed_seconds": 0.802733900025487,
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 7 verified, 0 errors\n",
+      "stderr": "",
+      "error": null,
+      "warnings": [],
+      "warning_count": 0
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1,
+  "total_elapsed_seconds": 72.42627330002142,
+  "tokens": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 3328,
+      "inputTokens": 15587,
+      "outputTokens": 4869,
+      "reasoningOutputTokens": 4660,
+      "totalTokens": 20456
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 3328,
+      "inputTokens": 15587,
+      "outputTokens": 4869,
+      "reasoningOutputTokens": 4660,
+      "totalTokens": 20456
+    }
+  },
+  "credits": null,
+  "cost": null,
+  "manual_review": {
+    "status": "PENDING",
+    "scale": {
+      "COVERED": 2,
+      "WEAKENED": 1,
+      "MISSING": 0
+    },
+    "requirements": [
+      {
+        "requirement": "An unauthorized request must never result in authorized access.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "Granting authorization should update the authorization state correctly.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      },
+      {
+        "requirement": "Revoking authorization should update the authorization state correctly.",
+        "score": null,
+        "label": null,
+        "notes": ""
+      }
+    ],
+    "unjustified_requires": [],
+    "unrequested_assumptions": [],
+    "vacuous_or_trivial_specifications": [],
+    "suspicious_assume_usage": [],
+    "requirements_weakened_during_repair": [],
+    "normalized_coverage": null,
+    "max_score": 6,
+    "notes": []
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "models": [
+    "gpt-5.4-mini",
+    "gpt-5.6-luna",
+    "gpt-5.4"
+  ],
+  "prompt_profiles": [
+    "general",
+    "improved"
+  ],
+  "scenarios": [
+    "requirements/bounded_counter.txt",
+    "requirements/authorized_access.txt",
+    "requirements/account_transfer.txt"
+  ],
+  "repetitions": 1
+}

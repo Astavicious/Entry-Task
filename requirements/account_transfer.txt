@@ -1,0 +1,8 @@
+Implement a transfer operation between two accounts.
+
+Requirements:
+
+- The transfer amount must not be negative.
+- The transfer amount must not exceed the source account's balance.
+- A successful transfer must leave both accounts with non-negative balances.
+- A successful transfer must preserve the combined balance of the two accounts.
