@@ -1,0 +1,24 @@
+{
+  "run_id": "20260831T163605Z_general_gpt-5.4-mini_bounded_counter_r1",
+  "scenario": "bounded_counter",
+  "requested_model": "gpt-5.4-mini",
+  "prompt_profile": "general",
+  "attempts": [
+    {
+      "attempt": 1,
+      "prompt_kind": "generation",
+      "raw_path": "generated\\general\\20260831T163605Z_general_gpt-5.4-mini_bounded_counter_r1\\bounded_counter_attempt_1.raw.txt",
+      "source_path": "generated\\general\\20260831T163605Z_general_gpt-5.4-mini_bounded_counter_r1\\bounded_counter_attempt_1.dfy",
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 3 verified, 0 errors\n",
+      "stderr": "",
+      "error": null,
+      "warnings": []
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1
+}

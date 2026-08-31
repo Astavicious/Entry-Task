@@ -1,0 +1,55 @@
+{
+  "batch_id": "20260831T163519Z",
+  "status": "STOPPED_INFRASTRUCTURE_ERROR",
+  "design": {
+    "models": [
+      "gpt-5.4-mini"
+    ],
+    "prompt_profiles": [
+      "general",
+      "improved"
+    ],
+    "scenarios": [
+      {
+        "path": "requirements\\bounded_counter.txt",
+        "sha256": "41a1006013b70dfad42acbede7a215aa4308916e86a8d3d8c0508ce73916e119"
+      },
+      {
+        "path": "requirements\\authorized_access.txt",
+        "sha256": "ad50c7319ab07e70c9d73c21266dcd6e812a11a99b0d2edc0bfded0b491b5ac1"
+      },
+      {
+        "path": "requirements\\account_transfer.txt",
+        "sha256": "d7785cdc541738ca98ba1be4afd647c5742af9a50ee6f412166d1bd1b3ad71cf"
+      }
+    ],
+    "repetitions": 1,
+    "max_attempts": 3
+  },
+  "prompt_profiles": {
+    "general": {
+      "generation_instructions": "Generate a complete Dafny program from the natural-language requirement.\nImplement the requested behavior and make the program intended to pass\n`dafny verify`.\n\nReturn only the complete Dafny source code in one fenced `dafny` block.",
+      "generation_sha256": "461136002ad1f4eb954c55e63819ef94099a8bd8605a0150d1adc243f34223a1",
+      "repair_instructions": "Repair the Dafny program using the verifier feedback so that it passes\n`dafny verify`.\n\nReturn only the complete corrected Dafny source code in one fenced `dafny`\nblock.",
+      "repair_sha256": "c219c33877b903f1b2a6cbfa3188b8d5114bfa5e55c51ac0fd74a34c2fce8a01"
+    },
+    "improved": {
+      "generation_instructions": "Generate a complete Dafny program from the natural-language requirement.\n\nSuccess means:\n\n- the program is intended to pass `dafny verify`;\n- every meaningful English requirement is represented by an explicit\n  Dafny specification where appropriate;\n- the implementation satisfies those specifications.\n\nUse requires, ensures, invariants, old(...), predicates, and other Dafny\nfeatures when appropriate.\n\nDo not omit or weaken requirements to obtain verification.\nDo not use assume, axioms, trivial specifications such as `ensures true`,\nor other shortcuts that bypass the intended proof.\n\nIf the requirement is ambiguous, make the smallest reasonable assumption\nwhile preserving its intent.\n\nReturn only the complete Dafny source code in one fenced `dafny` block.",
+      "generation_sha256": "d5fc95d36eb22567f13f2c65b86234db49ac2e57ec938ca67b6d391c14580aad",
+      "repair_instructions": "Repair the Dafny program using the verifier feedback.\n\nSuccess means:\n\n- the corrected program passes `dafny verify`;\n- all original natural-language requirements remain represented;\n- existing meaningful specifications are preserved or strengthened.\n\nFix the implementation or proof annotations needed to resolve the verifier\nfailure.\n\nDo not remove or weaken requirements.\nDo not use assume, axioms, `ensures true`, or other proof shortcuts.\n\nReturn only the complete corrected Dafny source code in one fenced `dafny`\nblock.",
+      "repair_sha256": "d33477f20d1600349ee67b3b19a71da688e0ebf3a3231e302af67fe710304fb2"
+    }
+  },
+  "isolation": {
+    "repository_cwd_isolated": true,
+    "thread_cwd": "fresh temporary directory outside repository",
+    "project_agents_loaded": false,
+    "global_agents_path": "C:\\Users\\write\\.codex\\AGENTS.md",
+    "global_agents_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "global_agents_empty": true
+  },
+  "dafny_version": "4.11.0+fcb2042d6d043a2634f0854338c08feeaaaf4ae2",
+  "result_paths": [
+    "results\\benchmark\\general\\20260831T163519Z_general_gpt-5.4-mini_bounded_counter_r1.json"
+  ]
+}

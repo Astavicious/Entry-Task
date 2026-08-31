@@ -1,6 +1,6 @@
 # ADR 0001: Use Verifier-Guided Repair and Controlled Prompt Profiles
 
-- Status: Accepted
+- Status: Accepted; amended 2026-08-31
 - Date: 2026-08-29
 - Scope: Dafny generation research prototype
 - Decision owners: Project team
@@ -275,3 +275,118 @@ Future work should consider:
 4. Complete requirement-level manual review fields for each result before using
    `Faithful@1`, `Faithful@3`, or coverage metrics in a presentation.
 5. Keep warning-clean demo files separate from immutable benchmark artifacts.
+
+## Amendment: Clean Minimal Experiment (2026-08-31)
+
+### Discovery
+
+The original A/B batch had two methodological limitations discovered during
+final review.
+
+First, `llm.py` started Codex threads without an explicit working directory.
+The SDK inherited the repository working directory, and Codex incorporates
+applicable `AGENTS.md` files into its model context. The repository `AGENTS.md`
+contained scenario-specific interpretations and specification guidance.
+Consequently, both the general and improved conditions could receive guidance
+outside their explicit prompts. This confounded the intended prompt-profile
+comparison.
+
+Second, the then-current `agent.py` contained a separate
+`SCENARIO_REQUIREMENTS` dictionary for manual review. It expanded the Task
+wording with exact increment, reset, and balance-update interpretations. The
+saved A/B result JSON still contained the original Task-aligned checklists, but
+the later aggregate inspection applied the stronger rubric. In particular, the
+claim that one general transfer omitted supplied exact balance-update
+postconditions was too strong: those formulas were a reasonable interpretation
+of transfer, not explicit Task bullets.
+
+### Impact on Pilot Batch `20260829T184639Z`
+
+The raw responses, Dafny programs, verifier outcomes, warning counts, attempts,
+and runtimes remain factual for that pilot. They are preserved unchanged under
+`archive/pilot-20260829/` and in the baseline Git commit.
+
+The pilot is no longer treated as clean causal evidence about general versus
+improved prompting. Its semantic transfer observation is retained only as a
+strict-rubric observation, not as proof that the model ignored an explicit Task
+requirement.
+
+### Corrective Decision
+
+1. `Task.md` and the unchanged `requirements/*.txt` files define the scenario
+   inputs.
+2. `AGENTS.md` contains only neutral repository engineering instructions.
+3. `agent.py` performs generation, verification, repair, and minimal logging;
+   it does not define requirements or perform semantic scoring.
+4. Manual semantic review is a separate artifact based on the exact Task text.
+5. Every Codex thread receives a fresh temporary `cwd` outside the repository,
+   preventing project `AGENTS.md` from entering either condition.
+6. Both `CodexConfig` and the Codex thread receive the same isolated temporary
+   `cwd`. The thread remains read-only.
+7. The clean experiment uses one model, three scenarios, two profiles, one
+   repetition, and at most three attempts: six runs total.
+
+### Minimal-Agent Changes
+
+- Removed hard-coded scenario requirements and manual-review JSON templates.
+- Removed per-run Python/SDK environment metadata and empty model type, tier,
+  parameter, credits, and cost fields.
+- Stopped duplicating full raw responses and Dafny sources inside result JSON;
+  immutable artifact paths remain recorded.
+- Kept PASS/FAIL, verifier output, warnings, attempt count, model, profile, and
+  artifact paths.
+- Added focused tests proving isolated thread `cwd`, profile requirement parity,
+  minimal result shape, and artifact preservation.
+- Added one batch manifest containing requirement hashes, exact prompt-profile
+  instructions and hashes, Dafny version, and isolation evidence.
+
+Two sandboxed preflight runs stopped before model inference because the Codex
+runtime could not access the Windows home directory. Their error manifests are
+preserved under `archive/isolation-home-preflight-20260831*`. The official run
+used the user's authenticated outer environment while each Codex thread used
+`Sandbox.read_only` and an isolated temporary directory. A later no-inference
+startup probe confirmed that, outside the tool sandbox, the same isolated
+directory can also be used as `CodexConfig.cwd`; the final implementation now
+passes it to both SDK configuration and thread startup.
+
+### Clean Batch `20260831T163605Z`
+
+| Profile | Runs | Verified@1 | Verified@3 | Repair success | Total attempts | Warnings |
+|---|---:|---:|---:|---:|---:|---:|
+| General | 3 | 2/3 | 3/3 | 1/1 | 5 | 1 |
+| Improved | 3 | 2/3 | 3/3 | 1/1 | 5 | 0 |
+
+General bounded counter and authorized access verified on attempt 1. General
+account transfer verified on attempt 3 after removing unsupported class-level
+invariant syntax and adding the conditions needed to prove its contracts.
+
+Improved authorized access and account transfer verified on attempt 1.
+Improved bounded counter verified on attempt 3 after removing unsupported
+class-level invariant syntax and adding `requires Valid()`.
+
+All six final programs were warning-free. Manual review against the exact Task
+text found all six final programs complete under explicitly recorded reasonable
+assumptions. No proof shortcuts or repair weakening were found.
+
+### Revised Interpretation
+
+In this one-model, one-repetition clean batch, the profiles tied on
+first-attempt verification, final verification, repair success, total attempts,
+and Task faithfulness. The improved profile had no warnings across attempts,
+while general had one warning in a failed intermediate attempt.
+
+This is a small exploratory result. It supports the usefulness of
+verifier-guided repair, but it does not establish that either prompt profile is
+generally superior.
+
+### Decision History
+
+| Date | Change | Reason |
+|---|---|---|
+| 2026-08-29 | Added verifier-guided repair with maximum three attempts | Test whether Dafny feedback helps correct generated programs |
+| 2026-08-29 | Added general and improved prompt profiles | Compare minimal instructions with explicit specification-preservation guidance |
+| 2026-08-29 | Ran the 18-run pilot batch | Explore three models across both profiles and all scenarios |
+| 2026-08-31 | Identified project-instruction leakage | `AGENTS.md` was part of the effective Codex context |
+| 2026-08-31 | Identified duplicated/expanded manual-review rubric | `agent.py` could grade requirements not explicitly supplied in the Task |
+| 2026-08-31 | Archived the pilot and simplified the agent | Preserve evidence while restoring a small, explainable prototype |
+| 2026-08-31 | Isolated thread working directories and ran six clean cases | Make prompt profile the only intended experimental variable |

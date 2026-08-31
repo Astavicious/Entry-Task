@@ -1,0 +1,32 @@
+{
+  "batch_id": "20260831T163605Z",
+  "status": "COMPLETE",
+  "result_paths": [
+    "results\\benchmark\\general\\20260831T163605Z_general_gpt-5.4-mini_bounded_counter_r1.json",
+    "results\\benchmark\\general\\20260831T163605Z_general_gpt-5.4-mini_authorized_access_r1.json",
+    "results\\benchmark\\general\\20260831T163605Z_general_gpt-5.4-mini_account_transfer_r1.json",
+    "results\\benchmark\\improved\\20260831T163605Z_improved_gpt-5.4-mini_bounded_counter_r1.json",
+    "results\\benchmark\\improved\\20260831T163605Z_improved_gpt-5.4-mini_authorized_access_r1.json",
+    "results\\benchmark\\improved\\20260831T163605Z_improved_gpt-5.4-mini_account_transfer_r1.json"
+  ],
+  "aggregate": {
+    "general": {
+      "runs": 3,
+      "verified_at_1": 2,
+      "verified_within_3": 3,
+      "repair_successes": 1,
+      "repair_opportunities": 1,
+      "total_attempts": 5,
+      "warning_count": 1
+    },
+    "improved": {
+      "runs": 3,
+      "verified_at_1": 2,
+      "verified_within_3": 3,
+      "repair_successes": 1,
+      "repair_opportunities": 1,
+      "total_attempts": 5,
+      "warning_count": 0
+    }
+  }
+}

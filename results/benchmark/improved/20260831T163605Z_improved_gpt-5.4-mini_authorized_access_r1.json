@@ -1,0 +1,24 @@
+{
+  "run_id": "20260831T163605Z_improved_gpt-5.4-mini_authorized_access_r1",
+  "scenario": "authorized_access",
+  "requested_model": "gpt-5.4-mini",
+  "prompt_profile": "improved",
+  "attempts": [
+    {
+      "attempt": 1,
+      "prompt_kind": "generation",
+      "raw_path": "generated\\improved\\20260831T163605Z_improved_gpt-5.4-mini_authorized_access_r1\\authorized_access_attempt_1.raw.txt",
+      "source_path": "generated\\improved\\20260831T163605Z_improved_gpt-5.4-mini_authorized_access_r1\\authorized_access_attempt_1.dfy",
+      "verification": "PASS",
+      "passed": true,
+      "return_code": 0,
+      "stdout": "\nDafny program verifier finished with 8 verified, 0 errors\n",
+      "stderr": "",
+      "error": null,
+      "warnings": []
+    }
+  ],
+  "first_attempt_result": "PASS",
+  "final_result": "VERIFIED",
+  "attempt_count": 1
+}

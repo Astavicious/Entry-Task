@@ -1,0 +1,42 @@
+```dafny
+module CounterModule {
+  datatype Counter = Counter(value: nat, limit: nat)
+
+  predicate Valid(c: Counter)
+  {
+    c.value <= c.limit
+  }
+
+  method MakeCounter(limit: nat) returns (c: Counter)
+    ensures Valid(c)
+    ensures c.value == 0
+    ensures c.limit == limit
+  {
+    c := Counter(0, limit);
+  }
+
+  method Increment(c: Counter) returns (next: Counter)
+    requires Valid(c)
+    ensures Valid(next)
+    ensures next.limit == c.limit
+    ensures c.value < c.limit ==> next.value == c.value + 1
+    ensures c.value == c.limit ==> next == c
+  {
+    if c.value < c.limit {
+      assert c.value + 1 <= c.limit;
+      next := Counter(c.value + 1, c.limit);
+    } else {
+      next := c;
+    }
+  }
+
+  method Reset(c: Counter) returns (next: Counter)
+    requires Valid(c)
+    ensures Valid(next)
+    ensures next.limit == c.limit
+    ensures next.value == 0
+  {
+    next := Counter(0, c.limit);
+  }
+}
+```

@@ -1,0 +1,44 @@
+```dafny
+module ProtectedAccessSystem {
+
+  class AccessController {
+    var authorized: bool
+
+    constructor ()
+      ensures !authorized
+    {
+      authorized := false;
+    }
+
+    method GrantAuthorization()
+      modifies this
+      ensures authorized
+    {
+      authorized := true;
+    }
+
+    method RevokeAuthorization()
+      modifies this
+      ensures !authorized
+    {
+      authorized := false;
+    }
+
+    method RequestAccess() returns (granted: bool)
+      ensures granted <==> authorized
+      ensures !authorized ==> !granted
+      ensures granted ==> authorized
+    {
+      granted := authorized;
+    }
+
+    method AccessProtectedResource() returns (granted: bool)
+      ensures granted <==> authorized
+      ensures !authorized ==> !granted
+      ensures granted ==> authorized
+    {
+      granted := authorized;
+    }
+  }
+}
+```

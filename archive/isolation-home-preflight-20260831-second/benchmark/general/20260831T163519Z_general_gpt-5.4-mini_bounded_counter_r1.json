@@ -1,0 +1,24 @@
+{
+  "run_id": "20260831T163519Z_general_gpt-5.4-mini_bounded_counter_r1",
+  "scenario": "bounded_counter",
+  "requested_model": "gpt-5.4-mini",
+  "prompt_profile": "general",
+  "attempts": [
+    {
+      "attempt": 1,
+      "prompt_kind": "generation",
+      "raw_path": null,
+      "source_path": null,
+      "verification": "ERROR",
+      "passed": false,
+      "return_code": null,
+      "stdout": "",
+      "stderr": "",
+      "error": "Codex process closed stdout. stderr_tail=WARNING: proceeding, even though we could not create PATH aliases: Could not find home directory\nError: Could not find home directory",
+      "warnings": []
+    }
+  ],
+  "first_attempt_result": "ERROR",
+  "final_result": "INFRASTRUCTURE_ERROR",
+  "attempt_count": 1
+}
