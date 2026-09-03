@@ -10,9 +10,7 @@ The clean experiment asks one focused question:
 > constant, does an explicit verification-oriented prompt profile perform
 > differently from a short general profile?
 
-The architecture decision, methodological correction, and chronological change
-history are recorded in
-[`docs/adr/0001-verifier-guided-prompt-profile-benchmark.md`](docs/adr/0001-verifier-guided-prompt-profile-benchmark.md).
+
 
 ## Source Of Truth
 
