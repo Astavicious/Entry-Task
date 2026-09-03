@@ -167,4 +167,3 @@ experiment corrects the methodology instead of rewriting or deleting that histor
   common context, but they are shared by both profiles.
 - Runtime is not treated as a robust comparative metric in a six-run experiment.
 
-No Git remote is configured and this work is intentionally not pushed.
